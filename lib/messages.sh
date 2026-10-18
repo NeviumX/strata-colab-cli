@@ -266,3 +266,35 @@ _m r_port_fixed \
 _m r_started \
     "setup.sh を起動しました。モデル %s / コンテキスト %s / ポート %s" \
     "Started setup.sh. Model %s / context %s / port %s"
+
+# ===== Colab VM 側: 公式以外のモデル =====
+_m r_hf_install \
+    "Hugging Face のダウンロードツールを用意します。" \
+    "Setting up the Hugging Face download tool."
+_m r_custom_inspect \
+    "%s の %s が Strata で動かせるかを確かめます。読むのはヘッダーだけで、まだダウンロードはしません。" \
+    "Checking whether %s %s runs on Strata. Only the headers are read; nothing is downloaded yet."
+_m r_custom_unsupported \
+    "%s の %s は Strata で動かせないファイルです。config.env の MODEL_REPO / MODEL / MODEL_FILES を見直してください。" \
+    "%s %s is not a file Strata can run. Check MODEL_REPO, MODEL and MODEL_FILES in config.env."
+_m r_custom_inspect_unknown \
+    "Strata での確認を終えられませんでした。終了コードは %s です。このまま続けます。" \
+    "Strata could not finish the check, exit code %s. Continuing anyway."
+_m r_custom_nofiles \
+    "%s に、%s に合うファイルがありません。MODEL_FILES を見直してください。" \
+    "%s has no files matching %s. Check MODEL_FILES."
+_m r_custom_multidir \
+    "%s に合うファイルが複数のフォルダに分かれています。MODEL_FILES で 1 つのフォルダに絞ってください。" \
+    "Files matching %s are spread over several folders. Narrow MODEL_FILES to one folder."
+_m r_custom_disk \
+    "ディスクが足りません。ダウンロードに %s GB 必要ですが、空きは %s GB です。" \
+    "Not enough disk space. The download needs %s GB, but only %s GB is free."
+_m r_custom_lookup_failed \
+    "%s の情報を取得できませんでした。リポジトリ名と MODEL_REVISION を確かめてください。非公開なら HF_TOKEN も必要です。" \
+    "Could not read %s. Check the repository name and MODEL_REVISION. A private repository also needs HF_TOKEN."
+_m r_custom_ready \
+    "%s のファイルはすべてそろっています。" \
+    "All files from %s are already here."
+_m r_custom_plan \
+    "%s から %s 個のファイルを %s にダウンロードします。残りは %s GB、ディスクの空きは %s GB です。" \
+    "Downloading %s: %s files into %s. %s GB to go, %s GB of disk free."

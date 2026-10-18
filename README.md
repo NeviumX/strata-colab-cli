@@ -22,6 +22,8 @@ colab usage
 
 Change the GPU, model, ports and other settings in `config.env`, and the SSH connection in `ssh_config`.
 
+To use a GGUF that the official setup does not download, set `MODEL_REPO` in `config.env` to its Hugging Face repository and `MODEL` to the file's size name. The scripts check that Strata can run the file before downloading it. For a private repository, put `HF_TOKEN` in `config.local.env`.
+
 ## Usage
 
 | Action | Windows | WSL |

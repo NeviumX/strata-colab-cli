@@ -16,6 +16,13 @@ fi
 # shellcheck source=messages.sh
 source "$ROOT/lib/messages.sh"
 
+# 古い config.env に無い値の既定
+HF_TOKEN="${HF_TOKEN:-}"
+MODEL_FAMILY="${MODEL_FAMILY:-}"
+MODEL_REPO="${MODEL_REPO:-}"
+MODEL_FILES="${MODEL_FILES:-}"
+MODEL_REVISION="${MODEL_REVISION:-}"
+
 # ssh_config が $COLAB_SESSION を参照する
 export COLAB_SESSION
 command -v colab >/dev/null 2>&1 || export PATH="$HOME/.local/bin:$PATH"
@@ -86,9 +93,13 @@ PORT_ERR_RE='already in use|address in use|eaddrinuse'
 # Colab VM で Strata を起動する。起動済み・起動中なら何もしない。引数 1 なら止めてからやり直す。
 remote_start() {
     local FORCE_RESTART="${1:-0}"
-    # 表示する文章も一緒に送り、言語は手元で決めたものを使わせる
-    cat "$ROOT/lib/messages.sh" "$ROOT/lib/remote-setup.sh" |
-        rssh "$(remote_env STRATA_REPO REMOTE_DIR DATA_DIR MODEL CONTEXT REMOTE_PORT API_KEY STRATA_EXTRA_ARGS REMOTE_LOG FORCE_RESTART MSG_LANG) bash -s"
+    # 表示する文章も一緒に送り、言語は手元で決めたものを使わせる。
+    # 秘密の値はコマンドラインに載せず、流し込む本体の先頭に代入文として付ける
+    {
+        printf 'API_KEY=%q\nHF_TOKEN=%q\n' "$API_KEY" "$HF_TOKEN"
+        cat "$ROOT/lib/messages.sh" "$ROOT/lib/remote-setup.sh"
+    } | rssh "$(remote_env STRATA_REPO REMOTE_DIR DATA_DIR MODEL CONTEXT REMOTE_PORT STRATA_EXTRA_ARGS REMOTE_LOG \
+                MODEL_FAMILY MODEL_REPO MODEL_FILES MODEL_REVISION FORCE_RESTART MSG_LANG) bash -s"
 }
 
 # Colab 側の状態を 1 回の SSH で調べる: HEALTHY / PORT_IN_USE / EXITED / ログの最終行

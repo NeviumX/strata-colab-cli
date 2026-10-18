@@ -20,6 +20,8 @@ colab usage
 
 GPU、モデル、ポートなどは `config.env` で、SSH の接続方法は `ssh_config` で変更できます。
 
+公式のセットアップが落とすもの以外の GGUF を使うときは、`config.env` の `MODEL_REPO` に Hugging Face のリポジトリを書き、`MODEL` をそのファイルのサイズ名にします。Strata が動かせる形式かどうかは、ダウンロードの前に確かめます。非公開のリポジトリなら、`config.local.env` に `HF_TOKEN` を書いてください。
+
 ## 使い方
 
 | 操作 | Windows | WSL |
