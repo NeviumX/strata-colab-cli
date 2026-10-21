@@ -182,6 +182,17 @@ _m started \
     "Strata が起動しました。" \
     "Strata has started."
 
+# ===== restart.sh =====
+_m rs_closing_window \
+    "start.bat のウィンドウのトンネルを閉じます。そのウィンドウは古い設定で復旧しようとするためです。" \
+    "Closing the tunnel held by the start.bat window, because that window would recover Strata with the old settings."
+_m rs_restarting \
+    "設定を読み直して、Colab の Strata を起動し直します。ランタイムとダウンロード済みのモデルはそのまま使います。" \
+    "Reading the settings again and restarting Strata on Colab. The runtime and the downloaded model are kept."
+_m rs_waiting \
+    "起動完了を待ちます。モデルがそろっていれば数分です。MODEL を変えたときは、そのモデルのダウンロードが入ります。" \
+    "Waiting for Strata to start. This takes a few minutes when the model is already downloaded. A new MODEL is downloaded first."
+
 # ===== down.sh =====
 _m closing_tunnel \
     "トンネルを閉じます。" \
@@ -227,6 +238,9 @@ _m r_already_running \
 _m r_redo \
     "セットアップをやり直します。" \
     "Redoing the setup."
+_m r_restart \
+    "動いている Strata を止めて、新しい設定で起動し直します。" \
+    "Stopping the running Strata and starting it again with the new settings."
 _m r_prev_exited \
     "前回の setup.sh は終了しています。起動し直します。" \
     "The previous setup.sh has exited. Starting again."

@@ -27,6 +27,7 @@ GPU、モデル、ポートなどは `config.env` で、SSH の接続方法は `
 | 操作 | Windows | WSL |
 |---|---|---|
 | 起動して WebUI を開く | `start.bat` | `./up.sh` |
+| 設定を変えて Strata だけを起動し直す | `restart.bat` | `./restart.sh` |
 | 停止する | `stop.bat` | `./down.sh` |
 | 状態を見る | `status.bat` | `./status.sh` |
 | ログを見る | | `./logs.sh` |
@@ -41,5 +42,6 @@ GPU、モデル、ポートなどは `config.env` で、SSH の接続方法は `
 
 - `start.bat` のウィンドウを閉じてもランタイムは動き続け、課金されます。使い終わったら `stop.bat` で停止してください。
 - 停止するとダウンロードしたモデルも消え、次回はダウンロードからやり直しになります。
+- `CONTEXT` などの設定を変えたときは、`stop.bat` ではなく `restart.bat` を使ってください。ランタイムとモデルを残したまま、新しい設定で Strata を起動し直します。開いている `start.bat` のウィンドウのトンネルは閉じられ、`restart.bat` のウィンドウが引き継ぎます。
 - Colab のランタイムには同時に 1 本しか SSH をつなげません。VM に手で入るときは `colab ssh` ではなく `./ssh.sh` を使ってください。
 - 表示は、日本語の環境なら日本語、それ以外なら英語になります。`config.env` の `STRATA_LANG` を `ja` か `en` にすると固定できます。WSL で言語が設定されていないときは、Windows の表示言語に合わせます。

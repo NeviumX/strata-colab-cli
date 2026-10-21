@@ -7,11 +7,12 @@ STATE_DIR="$ROOT/.state"
 TUNNEL_PID_FILE="$STATE_DIR/tunnel.pid"
 mkdir -p "$STATE_DIR"
 
-# shellcheck source=../config.env
-source "$ROOT/config.env"
+# Windows のエディターで保存すると改行が CRLF になり、値の末尾に \r が付いてしまうので、取り除いてから読む
+# shellcheck disable=SC1090
+load_config() { source <(tr -d '\r' < "$1"); }
+load_config "$ROOT/config.env"
 if [[ -f "$ROOT/config.local.env" ]]; then
-    # shellcheck disable=SC1091
-    source "$ROOT/config.local.env"
+    load_config "$ROOT/config.local.env"
 fi
 # shellcheck source=messages.sh
 source "$ROOT/lib/messages.sh"

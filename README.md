@@ -29,6 +29,7 @@ To use a GGUF that the official setup does not download, set `MODEL_REPO` in `co
 | Action | Windows | WSL |
 |---|---|---|
 | Start and open the WebUI | `start.bat` | `./up.sh` |
+| Restart only Strata after changing settings | `restart.bat` | `./restart.sh` |
 | Stop | `stop.bat` | `./down.sh` |
 | Show status | `status.bat` | `./status.sh` |
 | Show logs | | `./logs.sh` |
@@ -43,5 +44,6 @@ Endpoints after startup:
 
 - Closing the `start.bat` window does not stop the runtime, and it keeps being billed. Run `stop.bat` when you are done.
 - Stopping also deletes the downloaded model, so the next start downloads it again.
+- After changing settings such as `CONTEXT`, use `restart.bat` instead of `stop.bat`. It keeps the runtime and the model and starts Strata again with the new settings. The tunnel of an open `start.bat` window is closed, and the `restart.bat` window takes it over.
 - A Colab runtime accepts only one SSH connection at a time. To open a shell on the VM, use `./ssh.sh` instead of `colab ssh`.
 - Messages are shown in Japanese on a Japanese system and in English otherwise. Set `STRATA_LANG` to `ja` or `en` in `config.env` to choose one. On WSL without a language set, the Windows display language is used.

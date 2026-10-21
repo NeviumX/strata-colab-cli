@@ -2,7 +2,7 @@
 # Colab VM 上で実行される。手元の lib/common.sh が lib/messages.sh と一緒に ssh 経由で標準入力から流し込む。
 # 受け取る変数: STRATA_REPO REMOTE_DIR DATA_DIR MODEL CONTEXT REMOTE_PORT STRATA_EXTRA_ARGS REMOTE_LOG
 #               MODEL_FAMILY MODEL_REPO MODEL_FILES MODEL_REVISION
-#               FORCE_RESTART: 1 なら進行中でも止めてやり直す
+#               FORCE_RESTART: 1 なら進行中でも止めてやり直す。2 なら起動済みでも止めて、新しい設定で起動し直す
 #               MSG_LANG: 表示する言語。ja か en
 # 秘密の値 API_KEY と HF_TOKEN は、コマンドラインに出さないよう、流し込む本体の先頭に代入文として付けて送られる。
 set -euo pipefail
@@ -14,12 +14,12 @@ FORCE_RESTART="${FORCE_RESTART:-0}"
 
 rmsg() { echo "[remote] $(msg "$@")"; }
 
-if curl -sf -m 5 "http://127.0.0.1:$REMOTE_PORT/health" >/dev/null 2>&1; then
+if [[ "$FORCE_RESTART" == 2 ]]; then
+    rmsg r_restart
+elif curl -sf -m 5 "http://127.0.0.1:$REMOTE_PORT/health" >/dev/null 2>&1; then
     rmsg r_already_running
     exit 0
-fi
-
-if command -v tmux >/dev/null 2>&1 && tmux has-session -t "$TMUX_SESSION" 2>/dev/null; then
+elif command -v tmux >/dev/null 2>&1 && tmux has-session -t "$TMUX_SESSION" 2>/dev/null; then
     if [[ "$FORCE_RESTART" == 1 ]]; then
         rmsg r_redo
     elif tail -n 5 "$REMOTE_LOG" 2>/dev/null | grep -qF "$EXIT_MARK"; then
