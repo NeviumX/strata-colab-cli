@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Colab VM 上で実行される。手元の lib/common.sh が lib/messages.sh と一緒に ssh 経由で標準入力から流し込む。
 # 受け取る変数: STRATA_REPO REMOTE_DIR DATA_DIR MODEL CONTEXT REMOTE_PORT STRATA_EXTRA_ARGS REMOTE_LOG
-#               MODEL_FAMILY MODEL_REPO MODEL_FILES MODEL_REVISION
+#               MODEL_FAMILY MODEL_REPO MODEL_FILES MODEL_REVISION KV_CACHE DRAFTER
 #               FORCE_RESTART: 1 なら進行中でも止めてやり直す。2 なら起動済みでも止めて、新しい設定で起動し直す
 #               MSG_LANG: 表示する言語。ja か en
 # 秘密の値 API_KEY と HF_TOKEN は、コマンドラインに出さないよう、流し込む本体の先頭に代入文として付けて送られる。
@@ -138,7 +138,8 @@ rmsg r_py "$PY" "$("$PY" --version 2>&1)"
 
 # ---- 保存済み設定のポート ----
 # Strata は保存済みの設定 strata-<model>.json のポートで起動するので、REMOTE_PORT に合わせる。
-for f in "$REMOTE_DIR"/strata-*.json; do
+# 設定の置き場所は、Strata 0.2.16 からは terminal/ の中、それより前はフォルダの直下。
+for f in "$REMOTE_DIR"/terminal/strata-*.json "$REMOTE_DIR"/strata-*.json; do
     [[ -f "$f" ]] || continue
     old_ports="$("$PY" - "$f" "$REMOTE_PORT" <<'PYEOF'
 import json, sys
@@ -269,6 +270,8 @@ args=(--model "$MODEL" --context "$CONTEXT" --port "$REMOTE_PORT"
       --data-dir "$DATA_DIR" --no-browser --yes)
 [[ -n "$MODEL_FAMILY" ]] && args+=(--family "$MODEL_FAMILY")
 [[ -n "$GGUF_DIR" ]] && args+=(--gguf-dir "$GGUF_DIR")
+[[ -n "${KV_CACHE:-}" ]] && args+=(--kv "$KV_CACHE")
+[[ -n "${DRAFTER:-}" ]] && args+=(--drafter "$DRAFTER")
 [[ -n "$API_KEY" ]] && args+=(--api-key "$API_KEY")
 # STRATA_EXTRA_ARGS は空白で区切って渡す
 # shellcheck disable=SC2206

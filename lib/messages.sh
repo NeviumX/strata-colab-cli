@@ -49,6 +49,9 @@ msg() {
 _m cmd_missing \
     "%s が見つかりません。先に ./setup-wsl.sh を実行してください。" \
     "%s not found. Run ./setup-wsl.sh first."
+_m bad_choice \
+    "config.env の %s に使えない値 %s が書かれています。使えるのは %s です。空にすると Strata の既定になります。" \
+    "%s in config.env has a value Strata does not accept: %s. Use one of %s, or leave it empty for Strata's default."
 _m no_runtime_skip_ssh \
     "ランタイム %s がないので、SSH は行いません。" \
     "Runtime %s does not exist, so SSH is skipped."

@@ -20,6 +20,8 @@ colab usage
 
 GPU、モデル、ポートなどは `config.env` で、SSH の接続方法は `ssh_config` で変更できます。
 
+Qwen3.8-Flash-Next 以外のモデルを使うときは、`MODEL_FAMILY` と `MODEL` を組み合わせて指定します。Inkling 2 Mini なら `MODEL_FAMILY=inkling-2-mini` と `MODEL=SQ-20` のように書きます。Tencent Hy4-Flash は `MODEL_FAMILY=hy4-flash` と `MODEL=SQ-64` で、64 GB ほどの RAM が要るので `HIGH_MEM=1` にしてください。KV キャッシュの形式は `KV_CACHE` で、先読みに使うドラフターは `DRAFTER` で選べます。書ける値は `config.env` のコメントにあります。
+
 公式のセットアップが落とすもの以外の GGUF を使うときは、`config.env` の `MODEL_REPO` に Hugging Face のリポジトリを書き、`MODEL` をそのファイルのサイズ名にします。Strata が動かせる形式かどうかは、ダウンロードの前に確かめます。非公開のリポジトリなら、`config.local.env` に `HF_TOKEN` を書いてください。
 
 ## 使い方

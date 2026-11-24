@@ -22,6 +22,8 @@ colab usage
 
 Change the GPU, model, ports and other settings in `config.env`, and the SSH connection in `ssh_config`.
 
+To use a model other than Qwen3.8-Flash-Next, set `MODEL_FAMILY` and `MODEL` together. For Inkling 2 Mini, write `MODEL_FAMILY=inkling-2-mini` and `MODEL=SQ-20`, for example. Tencent Hy4-Flash uses `MODEL_FAMILY=hy4-flash` and `MODEL=SQ-64`. It needs about 64 GB of RAM, so set `HIGH_MEM=1`. `KV_CACHE` chooses the KV cache format and `DRAFTER` chooses the drafter used for speculative decoding. The values they accept are listed in the comments of `config.env`.
+
 To use a GGUF that the official setup does not download, set `MODEL_REPO` in `config.env` to its Hugging Face repository and `MODEL` to the file's size name. The scripts check that Strata can run the file before downloading it. For a private repository, put `HF_TOKEN` in `config.local.env`.
 
 ## Usage
